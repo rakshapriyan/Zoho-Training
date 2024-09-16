@@ -2,18 +2,22 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Runner {
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
         String testString = "";
         String testString2 = "";
         char testChar;
         int option;
+        
+        
 
         while (true) {
             try {
-            	System.out.println("\n");
+                System.out.println("\n");
                 System.out.println("Select an option:");
                 System.out.println("1. Length of a string");
                 System.out.println("2. Convert to char array");
@@ -37,149 +41,185 @@ public class Runner {
                 System.out.println("20. Remove spaces from the string");
                 System.out.println("21. Exit");
 
-                option = Integer.parseInt(br.readLine());
+                option = Integer.parseInt(sc.nextLine());
 
                 if (option == 21) {
                     System.out.println("Exiting...");
                     break;
                 }
+                
+                
 
                 switch (option) {
+                
                     case 1:
+                    	
                         System.out.print("Enter a string: ");
                         testString = br.readLine();
                         System.out.println("Length: " + Task.length(testString));
                         break;
 
                     case 2:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Char Array: " + Arrays.toString(Task.convertToCharArray(testString)));
                         break;
 
                     case 3:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Penultimate Character: " + Task.findPenUltimateCharacter(testString));
                         break;
 
                     case 4:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.print("Enter a character: ");
-                        testChar = (char) br.read();
-                        br.readLine(); // Consume newline character
+                        testChar = sc.nextLine().charAt(0);
                         System.out.println("Occurrences of '" + testChar + "': " + Task.findOccurances(testString, testChar));
                         break;
 
                     case 5:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.print("Enter a character: ");
-                        testChar = (char) br.read();
-                        br.readLine(); // Consume newline character
+                        testChar = sc.nextLine().charAt(0);
                         System.out.println("Greatest Position: " + Task.greatestPosition(testString, testChar));
                         break;
 
                     case 6:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Last 5 Characters: " + Task.last5Characters(testString));
                         break;
 
                     case 7:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("First 3 Characters: " + Task.first3Characters(testString));
                         break;
 
                     case 8:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Replaced String: " + Task.ReplacewithXYZ(testString));
                         break;
 
                     case 9:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Starts with 'ent': " + Task.startswithent(testString));
                         break;
 
                     case 10:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Ends with 'le': " + Task.endswithle(testString));
                         break;
 
                     case 11:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Uppercase: " + Task.convertToUppercase(testString));
                         break;
+                        
+                        
 
                     case 12:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Lowercase: " + Task.convertToLowerCase(testString));
                         break;
+                        
 
                     case 13:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Reversed String: " + Task.reverse(testString));
                         break;
 
                     case 14:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Concatenated String: " + Task.Concatenate(testString));
                         break;
+                        
 
                     case 15:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Concatenated and Removed Spaces: " + Task.ConcatenateandRemoveSpace(testString));
                         break;
 
                     case 16:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Array Format: " + Task.toArray(testString));
                         break;
 
                     case 17:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Merged with '-': " + Task.mergebetween(testString));
                         break;
 
                     case 18:
+                    
                         System.out.print("Enter first string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.print("Enter second string: ");
-                        testString2 = br.readLine();
+                        testString2 = sc.nextLine();
                         System.out.println("Strings equal (case sensitive): " + Task.checkwithCase(testString, testString2));
                         break;
+                        
 
                     case 19:
+                    
                         System.out.print("Enter first string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.print("Enter second string: ");
-                        testString2 = br.readLine();
+                        testString2 = sc.nextLine();
                         System.out.println("Strings equal (case insensitive): " + Task.checkwithoutCase(testString, testString2));
                         break;
+                        
+                        
 
                     case 20:
+                    
                         System.out.print("Enter a string: ");
-                        testString = br.readLine();
+                        testString = sc.nextLine();
                         System.out.println("Trimmed String: " + Task.trim(testString));
                         break;
+                        
+                        
 
                     default:
                         System.out.println("Invalid option. Please try again.");
                         break;
                 }
-            } catch (IOException | NullStringException e) {
+                
+            } catch (NullStringException e) {
+            
+                System.out.println("Error: " + e.getMessage());
+                
+            } catch (IOException e) {
+            
                 System.out.println("Error: " + e.getMessage());
             }
         }
