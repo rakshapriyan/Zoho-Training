@@ -5,8 +5,6 @@ import task.util.HelperUtil;
 
 public class StringTask {
     
-	
-  
 
     // Q1 -> Finding length
     public int length(String str) throws InvalidInputException {
@@ -135,10 +133,7 @@ public class StringTask {
         HelperUtil.isNull(str);
         return str.toLowerCase();
     }
-    
-    
-    
-    
+        
 
     // Q13 -> Reversing a string
     public String reverse(String str) throws InvalidInputException {
@@ -161,7 +156,7 @@ public class StringTask {
 
     
     // Q14, Q15 -> Concatenating multiple strings and removing spaces
-    public String concatenateArray(int size, String[] arr, String joinWith) throws InvalidInputException{
+    public String concatenateArray(String joinWith, String arr[]) throws InvalidInputException{
     	//for(String s : arr){
     	//	validateString(s);
     	//}
@@ -197,9 +192,7 @@ public class StringTask {
         HelperUtil.isNull(str2);
         return str1.equals(str2);
     }
-    
-    
-    
+        
 
     // Q19 -> Checking if two strings are equal (Not case sensitive)
     public boolean equalsIgnoreCase(String str1, String str2) throws InvalidInputException {
@@ -210,7 +203,7 @@ public class StringTask {
     
     
     // Q20 -> Removing given Space from both ends
-    public String remove(String str) throws InvalidInputException {
+    public String removeSpaces(String str) throws InvalidInputException {
         HelperUtil.isNull(str);
         return str.trim();
     }
