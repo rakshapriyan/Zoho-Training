@@ -26,7 +26,7 @@ public class StringTask {
 
     // Q3 -> Finding the character present at given index
     public char findCharacterAtPosition(String str, int index) throws InvalidInputException { 
-    	int length = length(str);
+    	int length = length(str);		
         HelperUtil.validateBoundary(length, index);
         return str.charAt(index);
     }
