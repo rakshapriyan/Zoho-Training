@@ -309,12 +309,41 @@ public class StringRunner{
             	System.out.println(e.getMessage());
             	e.printStackTrace();
             }
+            finally{
+            	sc.close();
+            }
         }
+        
     }
 
     private static void handleException(Exception e) throws InvalidInputException {
     	throw new InvalidInputException(e.getMessage(), e);
     }
+    
+    
+    //Q3
+    public static void insertInBetween(){
+    	StringBuilder sb = task.getStringBuilder();
+    	System.out.println("Number of elements needed to add: ");
+        int size = Integer.parseInt(sc.nextLine());
+        String arr[] = new String[size];
+        for(int i = 0; i<size; i++){
+        	System.out.print("Enter string " + (i + 1) + ": ");
+        	arr[i] = sc.nextLine();
+        }
+        System.out.println("Enter the Delimter String: ");
+        String delimiter = sc.nextLine();
+        task.joinStringArrayWithDelimiter(sb, delimiter, arr, size);
+        System.out.println("The length for \"" + sb + "\" is " + task.length(sb));
+        
+        System.out.println("Enter the String you want to insert: ");
+        String insertString = sc.nextLine();
+        System.out.println("Enter the position to insert: ");
+        int insertPosition = Integer.parseInt(sc.nextLine());
+        task.insertInBetweenWithDelimiter(sb, size, delimiter, insertString, insertPosition);
+        System.out.println("The length for \"" + sb + "\" is " + task.length(sb));   
+    }
+    
 
 }
 
