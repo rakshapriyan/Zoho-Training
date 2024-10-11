@@ -1,10 +1,4 @@
 package task.inheritance;
-import task.inheritance.XUV;
-import task.inheritance.Swift;
-import task.inheritance.SCross;
-import task.inheritance.Car;
-import task.inheritance.BirdAbstract;
-import task.inheritance.ParrotMod;
 import java.util.Scanner;
 
 public class InheritanceRunner {

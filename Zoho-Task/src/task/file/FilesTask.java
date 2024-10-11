@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -40,31 +39,17 @@ public class FilesTask {
     }
 	
 	
-	public List<String> convertPropertiesToList(Properties properties, String delimiter) {
-        List<String> lines = new ArrayList<>();
-        properties.forEach((key, value) -> lines.add(key + delimiter + value));
-        return lines;
-    }
-	
-	public void writePropertiesIntofile(Properties properties, String delimiter, String filePath) throws IOException {
-		List<String> lines = convertPropertiesToList(properties, delimiter);
-		writeInFile(filePath, lines);
-		
+	public void writePropertiesIntofile(Properties properties, String fileName) throws IOException {
+		Path path = Paths.get(fileName);
+		properties.store(Files.newBufferedWriter(path), null);
 	}
 	
 	
-	public void loadFromFile(Properties properties, String fileName, String delimiter) throws IOException {
-        Path path = Paths.get(fileName);
-
-        List<String> lines = Files.readAllLines(path);
-
-        for (String line : lines) {
-            
-            String[] keyValue = line.split(delimiter, 2);
-            if (keyValue.length == 2) {
-                properties.setProperty(keyValue[0], keyValue[1]); 
-            }
-        }
+	public void loadPropertiesFromFile(Properties properties, String path) throws IOException {
+        
+		Path filePath = Paths.get(path);
+		properties.load(Files.newBufferedReader(filePath));
+		
     }
 	
 	

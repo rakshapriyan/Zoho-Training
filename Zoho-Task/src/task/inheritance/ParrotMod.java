@@ -1,8 +1,5 @@
 package task.inheritance;
 
-import task.inheritance.BirdAbstract;
-
-
 public class ParrotMod extends BirdAbstract{
 	
 	

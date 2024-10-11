@@ -1,7 +1,7 @@
 package task.stringbuilder;
 
-import task.util.HelperUtil;
 import task.exception.InvalidInputException;
+import task.util.HelperUtil;
 
 public class StringBuilderTask {
    

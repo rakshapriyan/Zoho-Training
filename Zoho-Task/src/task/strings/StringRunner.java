@@ -2,6 +2,7 @@ package task.strings;
 
 import java.util.Arrays;
 import java.util.Scanner;
+
 import task.exception.InvalidInputException;
 
 public class StringRunner{

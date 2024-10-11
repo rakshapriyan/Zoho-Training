@@ -49,7 +49,7 @@ public class FilesRunner {
                       runner.writeInProps();
                       break;
                   case 3:
-                      runner.readProps();
+                      runner.readPropsFromFile();
                       break;
                   case 4:
 //                      runner.createFilesUnderDir();
@@ -90,14 +90,12 @@ public class FilesRunner {
     
     
 
-    private void readProps() throws IOException {
+    private void readPropsFromFile() throws IOException {
     	String pathString= getStringInput("Enter the path of the file");
-    	
-    	String delimiter = getStringInput("Enter the delimiter");
     	
     	Properties properties = task.getProperties();
     	
-    	task.loadFromFile(properties, pathString, delimiter);
+    	task.loadPropertiesFromFile(properties, pathString);
     	
     	properties.forEach((key, value) -> logger.info("Key: "+key+" value: "+value));
 		
@@ -105,7 +103,7 @@ public class FilesRunner {
 
 
 
-
+    //Q1
 	public void writeInFile() throws InvalidInputException {
         try {
             String path = getStringInput("Enter the path with file name");
@@ -138,16 +136,17 @@ public class FilesRunner {
         logger.info(timeOps.getTimeInZone(zone1) + " and " + timeOps.getTimeInZone(zone2));
     }
 
-    public void writeInProps() {
+    public void writeInProps() throws IOException {
         Properties properties = task.getProperties();
         int numOfProps = getIntegerInput("How many properties to add");
         for (int i = 0; i < numOfProps; i++) {
             task.addProperty(properties, getStringInput("Enter the key"), getStringInput("Enter the Value"));
         }
 
-        String delimiter = getStringInput("Enter the delimiter");
+        
         String path = getStringInput("Enter the file name");
-        logger.info("Properties written with delimiter: " + delimiter + " to file: " + path);
+        task.writePropertiesIntofile(properties, path);
+        logger.info("Properties written to file: " + path);
     }
 
     private void printObject() {
