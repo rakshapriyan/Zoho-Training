@@ -89,7 +89,7 @@ public class FilesRunner {
     
     
     
-
+  //q3
     private void readPropsFromFile() throws IOException {
     	String pathString= getStringInput("Enter the path of the file");
     	
@@ -135,7 +135,7 @@ public class FilesRunner {
         logger.info("Time comparison between " + zone1 + " and " + zone2);
         logger.info(timeOps.getTimeInZone(zone1) + " and " + timeOps.getTimeInZone(zone2));
     }
-
+    //q2
     public void writeInProps() throws IOException {
         Properties properties = task.getProperties();
         int numOfProps = getIntegerInput("How many properties to add");

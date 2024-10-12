@@ -22,7 +22,7 @@ public class ExtendedThread extends Thread {
     	logger.log(Level.INFO, "Going to Sleep: ", this.getName());
     	try {
     		if(sleepTime!=-1) {
-    			this.sleep(sleepTime);
+    			Thread.sleep(sleepTime);
     		}
     		else {
     			Thread.sleep(60000);
