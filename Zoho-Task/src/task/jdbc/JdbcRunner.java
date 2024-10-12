@@ -5,160 +5,177 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class JdbcRunner {
-	
-	private static Scanner sc = new Scanner(System.in);
-	private static JdbcTask jdbcTask = new JdbcTask();
-	public static void main(String[] args) {
-		
-		
-	}
-	
-	
-	private void createEmployeeTable() throws SQLException {
-				jdbcTask.createTable();
-	            System.out.println("Employee table created successfully!");
-	}
-	
-	
-	
-	
-	private void addNUser() throws SQLException {
-		boolean continueAdding = true;
-		while (continueAdding) {
-            System.out.println("Enter Employee details:");
+    private static Scanner sc = new Scanner(System.in);
+    private static JdbcTask jdbcTask = new JdbcTask();
 
-            System.out.print("Employee ID: ");
-            int empId = Integer.parseInt(sc.nextLine()); 
+    public static void main(String[] args) throws SQLException {
+        while (true) {
+            System.out.println("\nChoose an option:");
+            System.out.println("1. Create Employee Table");
+            System.out.println("2. Add Employee");
+            System.out.println("3. Get Employee by Name");
+            System.out.println("4. Update Employee Details");
+            System.out.println("5. Print First N Employees");
+            System.out.println("6. Print First N Employees (Sorted by Name)");
+            System.out.println("7. Delete Employee");
+            System.out.println("8. Create Dependent Table");
+            System.out.println("9. Add Dependent for Employee");
+            System.out.println("10. Get Dependents by Employee Name or ID");
+            System.out.println("11. Print Dependents for First N Employees");
+            System.out.println("0. Exit");
+            int choice = Integer.parseInt(sc.nextLine());
 
-            System.out.print("Name: ");
-            String name = sc.nextLine();
-
-            System.out.print("Mobile: ");
-            String mobile = sc.nextLine();
-
-            System.out.print("Email: ");
-            String email = sc.nextLine();
-
-            System.out.print("Department: ");
-            String department = sc.nextLine();
-
-            jdbcTask.insertEmployee( empId, name, mobile, email, department);
-
-            System.out.print("Do you want to add another employee? (yes/no): ");
-            String response = sc.nextLine();
-            continueAdding = response.equalsIgnoreCase("yes");
+            switch (choice) {
+                case 1:
+                    createEmployeeTable();
+                    break;
+                case 2:
+                    addEmployee();
+                    break;
+                case 3:
+                    getEmployeeByName();
+                    break;
+                case 4:
+                    updateEmployeeDetails();
+                    break;
+                case 5:
+                    printFirstNEmployees();
+                    break;
+                case 6:
+                    printFirstNEmployeesAsc();
+                    break;
+                case 7:
+                    deleteEmployee();
+                    break;
+                case 8:
+                    createDependentTable();
+                    break;
+                case 9:
+                    addDependent();
+                    break;
+                case 10:
+                    getDependentsByEmployeeNameOrId();
+                    break;
+                case 11:
+                    printDependentsForFirstNEmployees();
+                    break;
+                case 0:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice, please try again.");
+            }
+            
         }
-	}
-	
-	
-	private void getEmployeeByName() throws SQLException {
-        System.out.println("Enter the name: ");
-        String name = sc.nextLine();
-		
-        ResultSet rs = jdbcTask.getEmployeeByName(name);
-        if (!rs.isBeforeFirst()) {
-            System.out.println("No employee found with the name: " + name);
-            return;
-        }
-
-        while (rs.next()) {
-            int empId = rs.getInt("EMPLOYEE_ID");
-            String empName = rs.getString("NAME");
-            String mobile = rs.getString("MOBILE");
-            String email = rs.getString("EMAIL");
-            String department = rs.getString("DEPARTMENT");
-
-            System.out.println("Employee ID: " + empId);
-            System.out.println("Name: " + empName);
-            System.out.println("Mobile: " + mobile);
-            System.out.println("Email: " + email);
-            System.out.println("Department: " + department);
-            System.out.println("--------------------------------------------------");
-
-        }
-	}
-	
-	
-	
-	private void updateEmployeeDetails() throws SQLException {
-		System.out.print("Enter Employee ID to update: ");
-        int empId = Integer.parseInt(sc.nextLine());
-
-        // Get updated details from user
-        System.out.print("Enter new Mobile: ");
-        String mobile = sc.nextLine();
-
-        System.out.print("Enter new Email: ");
-        String email = sc.nextLine();
-
-        System.out.print("Enter new Department: ");
-        String department = sc.nextLine();
-        
-        
-        
-        
-        
-        int rowsUpdated = jdbcTask.updateEmployeeDetails( empId, mobile, email, department);
-        if (rowsUpdated > 0) {
-            System.out.println("Employee details updated successfully!");
-        } else {
-            System.out.println("No employee found with ID: " + empId);
-        }
-	}
-	
-	
-	
-	public void printFirstNUsers() throws SQLException {
-		System.out.print("Enter the number of employees to fetch: ");
-        int n = Integer.parseInt(sc.nextLine());
-        ResultSet rs = jdbcTask.printFirstNEmployees(n);
-        
-        System.out.println("EMPLOYEE_ID | NAME       | MOBILE      | EMAIL               | DEPARTMENT");
-        System.out.println("-----------------------------------------------------------------------");
-        while (rs.next()) {
-            int empId = rs.getInt("EMPLOYEE_ID");
-            String name = rs.getString("NAME");
-            String mobile = rs.getString("MOBILE");
-            String email = rs.getString("EMAIL");
-            String department = rs.getString("DEPARTMENT");
-
-            System.out.printf("%-12d | %-10s | %-10s | %-20s | %-10s\n", empId, name, mobile, email, department);
-        }
-	}
-	
-	
-	public void printFirstNUsersAsc() throws SQLException {
-		System.out.print("Enter the number of employees to fetch: ");
-        int n = Integer.parseInt(sc.nextLine());
-        ResultSet rs = jdbcTask.printFirstNEmployeesAsc(n);
-        
-        System.out.println("EMPLOYEE_ID | NAME       | MOBILE      | EMAIL               | DEPARTMENT");
-        System.out.println("-----------------------------------------------------------------------");
-        while (rs.next()) {
-            int empId = rs.getInt("EMPLOYEE_ID");
-            String name = rs.getString("NAME");
-            String mobile = rs.getString("MOBILE");
-            String email = rs.getString("EMAIL");
-            String department = rs.getString("DEPARTMENT");
-
-            System.out.printf("%-12d | %-10s | %-10s | %-20s | %-10s\n", empId, name, mobile, email, department);
-        }
-	}
-	
-	public void deleteEmployeeById() throws SQLException {
-		System.out.print("Enter Employee ID to delete: ");
-        int empIdToDelete = Integer.parseInt(sc.nextLine());
-        
-
-        int rowsAffected = jdbcTask.deleteEmployeeById(empIdToDelete);
-        if (rowsAffected > 0) {
-            System.out.println("Employee deleted successfully.");
-        } else {
-            System.out.println("Employee not found with ID: " + empIdToDelete);
-        }
-        
-        
-        printFirstNUsers();
     }
 
+    private static void createEmployeeTable() throws SQLException {
+        jdbcTask.createTable();
+        System.out.println("Employee table created successfully!");
+    }
+
+    private static void addEmployee() throws SQLException {
+        for (int i = 0; i < 10; i++) {
+            System.out.print("Enter Name: ");
+            String name = sc.nextLine();
+            System.out.print("Enter Mobile: ");
+            String mobile = sc.nextLine();
+            System.out.print("Enter Email: ");
+            String email = sc.nextLine();
+            System.out.print("Enter Department: ");
+            String department = sc.nextLine();
+            jdbcTask.insertEmployee(name, mobile, email, department);
+        }
+    }
+
+    private static void getEmployeeByName() throws SQLException {
+        System.out.print("Enter Employee Name: ");
+        String name = sc.nextLine();
+        ResultSet rs = jdbcTask.getEmployeeByName(name);
+        printEmployeeResultSet(rs);
+    }
+
+    private static void updateEmployeeDetails() throws SQLException {
+        System.out.print("Enter Employee ID: ");
+        int empId = Integer.parseInt(sc.nextLine());
+        System.out.print("Enter new Mobile: ");
+        String mobile = sc.nextLine();
+        System.out.print("Enter new Email: ");
+        String email = sc.nextLine();
+        System.out.print("Enter new Department: ");
+        String department = sc.nextLine();
+        jdbcTask.updateEmployeeDetails(empId, mobile, email, department);
+    }
+
+    private static void printFirstNEmployees() throws SQLException {
+        System.out.print("Enter N: ");
+        int n = Integer.parseInt(sc.nextLine());
+        ResultSet rs = jdbcTask.printFirstNEmployees(n);
+        printEmployeeResultSet(rs);
+    }
+
+    private static void printFirstNEmployeesAsc() throws SQLException {
+        System.out.print("Enter N: ");
+        int n = Integer.parseInt(sc.nextLine());
+        ResultSet rs = jdbcTask.printFirstNEmployeesAsc(n);
+        printEmployeeResultSet(rs);
+    }
+
+    private static void deleteEmployee() throws SQLException {
+        System.out.print("Enter Employee ID to delete: ");
+        int empId = Integer.parseInt(sc.nextLine());
+        jdbcTask.deleteEmployeeById(empId);
+        System.out.println("Employee deleted successfully.");
+    }
+
+    private static void createDependentTable() throws SQLException {
+        jdbcTask.createDependentTable();
+        System.out.println("Dependent table created successfully!");
+    }
+
+    private static void addDependent() throws SQLException {
+        System.out.print("Enter Employee ID: ");
+        int empId = Integer.parseInt(sc.nextLine());
+        System.out.print("Enter Dependent Name: ");
+        String depName = sc.nextLine();
+        System.out.print("Enter Dependent Age: ");
+        int age = Integer.parseInt(sc.nextLine());
+        System.out.print("Enter Relationship: ");
+        String relationship = sc.nextLine();
+        jdbcTask.insertDependent(empId, depName, age, relationship);
+    }
+
+    private static void getDependentsByEmployeeNameOrId() throws SQLException {
+        System.out.print("Enter Employee Name or ID: ");
+        String nameOrId = sc.nextLine();
+        ResultSet rs = jdbcTask.getDependentsByEmployeeNameOrId(nameOrId);
+        printDependentResultSet(rs);
+    }
+
+    private static void printDependentsForFirstNEmployees() throws SQLException {
+        System.out.print("Enter N: ");
+        int n = Integer.parseInt(sc.nextLine());
+        ResultSet rs = jdbcTask.getDependentsForFirstNEmployees(n);
+        printDependentResultSet(rs);
+    }
+
+    private static void printEmployeeResultSet(ResultSet rs) throws SQLException {
+        System.out.printf("%-10s %-20s %-15s %-25s %-20s\n", "ID", "Name", "Mobile", "Email", "Department");
+        while (rs.next()) {
+            System.out.printf("%-10d %-20s %-15s %-25s %-20s\n",
+                    rs.getInt("EMPLOYEE_ID"), rs.getString("NAME"),
+                    rs.getString("MOBILE"), rs.getString("EMAIL"),
+                    rs.getString("DEPARTMENT"));
+        }
+    }
+
+    private static void printDependentResultSet(ResultSet rs) throws SQLException {
+        System.out.printf("%-10s %-20s %-10s %-20s %-10s %-15s\n", "Emp ID", "Employee Name", "Dep ID", "Dep Name", "Age", "Relationship");
+        while (rs.next()) {
+            System.out.printf("%-10d %-20s %-10d %-20s %-10d %-15s\n",
+                    rs.getInt("EMPLOYEE_ID"), rs.getString("NAME"),
+                    rs.getInt("DEPENDENT_ID"), rs.getString("DEPENDENT_NAME"),
+                    rs.getInt("AGE"), rs.getString("RELATIONSHIP"));
+        }
+    }
 }

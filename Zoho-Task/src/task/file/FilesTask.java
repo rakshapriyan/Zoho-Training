@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class FilesTask {
 	
-	
+	//Q1
 	public Path writeInFile(String fileName, Iterable<? extends CharSequence> lines) throws IOException {
 		Path path = Paths.get(fileName);
 		Files.write(path, lines);
