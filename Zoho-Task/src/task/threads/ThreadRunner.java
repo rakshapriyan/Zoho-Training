@@ -88,7 +88,6 @@ public class ThreadRunner {
             extendedThread.start();
         }
 
-        // Spawn 5 RunnableThread instances with custom names
         for (int i = 1; i <= 5; i++) {
             RunnableThread runnable = new RunnableThread();
             Thread runnableThread = new Thread(runnable);

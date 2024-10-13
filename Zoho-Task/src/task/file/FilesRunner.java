@@ -101,6 +101,38 @@ public class FilesRunner {
 		
 	}
 
+    //Q4
+    private void readPropsFromFileWithDir() throws IOException {
+        String dirPath = getStringInput("Enter the directory path of the file");
+        String fileName = getStringInput("Enter the file name");
+        
+        Properties properties = task.getProperties();
+        task.loadPropertiesFromFile(properties, dirPath, fileName);
+        
+        properties.forEach((key, value) -> logger.info("Key: " + key + " value: " + value));
+    }
+
+
+    private void writeInFileWithDir() throws InvalidInputException {
+        try {
+            String filePath = getStringInput("Enter the directory path");
+            String fileName = getStringInput("Enter the file name");
+            int numOfLines = getIntegerInput("No of lines");
+            
+            List<String> lines = new ArrayList<>();
+            for (int i = 0; i < numOfLines; i++) {
+                lines.add(getStringInput("Enter line " + i + ": "));
+            }
+            
+            task.writeInFile(filePath, fileName, lines);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "File cannot be created properly", e);
+            throw new InvalidInputException("file cannot be created properly", e);
+        }
+    }
+    
+    
+
 
 
     //Q1
@@ -137,7 +169,7 @@ public class FilesRunner {
     }
     //q2
     public void writeInProps() throws IOException {
-        Properties properties = task.getProperties();
+        Properties properties = task.getProperties(); 
         int numOfProps = getIntegerInput("How many properties to add");
         for (int i = 0; i < numOfProps; i++) {
             task.addProperty(properties, getStringInput("Enter the key"), getStringInput("Enter the Value"));
@@ -149,7 +181,25 @@ public class FilesRunner {
         logger.info("Properties written to file: " + path);
     }
 
-    private void printObject() {
+
+
+    private void writeInPropsWithDir() throws IOException {
+        Properties properties = task.getProperties(); 
+        int numOfProps = getIntegerInput("How many properties to add");
+        
+        for (int i = 0; i < numOfProps; i++) {
+            task.addProperty(properties, getStringInput("Enter the key"), getStringInput("Enter the value"));
+        }
+        
+        String filePath = getStringInput("Enter the directory path");
+        String fileName = getStringInput("Enter the file name");
+        
+        task.writePropertiesIntoFile(properties, filePath, fileName);
+        logger.info("Properties written to file: " + filePath + "/" + fileName);
+    }
+    
+
+    private void printObject() { 
         logger.info(new CustomClass("Raksha").toString());
     }
 
@@ -164,28 +214,31 @@ public class FilesRunner {
         logger.info("Name: " + samplePOJO.getName() + ", Age: " + samplePOJO.getAge());
     }
 
-    private void invokeIndirectly() throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Class pojoClass = Class.forName("task.arrayList.CustomClass");
+    private void invokeIndirectly() throws ClassNotFoundException, NoSuchMethodException, SecurityException, 
+    InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-        Constructor defaultConstructor = pojoClass.getConstructor();
-        Object pojoInstance1 = defaultConstructor.newInstance();
-        logger.info("POJO instance created with default constructor.");
+    Class<?> pojoClass = Class.forName("task.arrayList.CustomClass");
 
-        Constructor overloadedConstructor = pojoClass.getConstructor(String.class, Integer.class);
-        Object pojoInstance2 = overloadedConstructor.newInstance("Raksha", 20);
-        logger.info("POJO instance created with overloaded constructor.");
+    Constructor<?> defaultConstructor = pojoClass.getConstructor();
+    Object pojoInstance1 = defaultConstructor.newInstance();
+    logger.info("POJO instance created with default constructor.");
 
-        Method getNameMethod = pojoClass.getMethod("getName");
-        String name = (String) getNameMethod.invoke(pojoInstance2);
-        logger.info("Getter invoked, name: " + name);
+    Constructor<?> overloadedConstructor = pojoClass.getConstructor(String.class, Integer.class);
+    Object pojoInstance2 = overloadedConstructor.newInstance("Raksha", 20);
+    logger.info("POJO instance created with overloaded constructor.");
 
-        Method setNameMethod = pojoClass.getMethod("setName", String.class);
-        setNameMethod.invoke(pojoInstance2, "Rakshapriyan");
-        logger.info("Setter invoked, name updated.");
+    Method getNameMethod = pojoClass.getMethod("getName");
+    String name = (String) getNameMethod.invoke(pojoInstance2);
+    logger.info("Getter invoked, name: " + name);
 
-        name = (String) getNameMethod.invoke(pojoInstance2);
-        logger.info("Updated name: " + name);
-    }
+    Method setNameMethod = pojoClass.getMethod("setName", String.class);
+    setNameMethod.invoke(pojoInstance2, "Rakshapriyan");
+    logger.info("Setter invoked, name updated.");
+
+    name = (String) getNameMethod.invoke(pojoInstance2);
+    logger.info("Updated name: " + name);
+}
+
 
     public void checkSingleton() {
         SingletonClass instance1 = SingletonClass.INSTANCE;
