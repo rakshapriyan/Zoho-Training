@@ -123,18 +123,38 @@ public class ThreadRunner {
         }
     }
 
-    private void threadDumpTask() {
-    	logger.info("Enter how many milliseconds: ");
-		long ms = sc.nextLong();
-		logger.info("Enter how many threads : ");
-		int threadCount = sc.nextInt();
-		logger.info("Enter how many minutes in milliseconds to wait : ");
-		long minutes = sc.nextLong();
-		logger.info("Enter the dump interval: ");
-		long dumpInterval = sc.nextLong();
-		logger.info("Enter the stop interval: ");
-		long stopInterval = sc.nextLong();
-		logger.info("Number of dumps : ");
-		long dumpCount = sc.nextLong();
+    private void threadDumpTask() throws InterruptedException {
+        System.out.print("Enter how many milliseconds for sleep: ");
+        long ms = sc.nextLong();
+        System.out.print("Enter how many threads: ");
+        int threadCount = sc.nextInt();
+        System.out.print("Enter how many minutes to wait before stopping: ");
+        long minutes = sc.nextLong();
+        System.out.print("Enter the number of dumps: ");
+        long dumpCount = sc.nextLong();
+        
+        System.out.print("Enter the Interval of dumps: ");
+        long dumpInterval = sc.nextLong();
+        
+        ExtendedThread[] extendedThreads = new ExtendedThread[threadCount];
+        Thread[] runnableThreads = new Thread[threadCount];
+        RunnableThread[] runnables = new RunnableThread[threadCount];
+
+        for (int i = 0; i < threadCount; i++) {
+            extendedThreads[i] = new ExtendedThread(ms * (i + 1));
+            extendedThreads[i].setName("ExtendedThread-" + i);
+            extendedThreads[i].start();
+            
+            runnables[i] = new RunnableThread(ms * (i + 1));
+            runnableThreads[i] = new Thread(runnables[i], "RunnableThread-" + i);
+            runnableThreads[i].start();
+        }
+
+        Thread.sleep(minutes * 60 * 1000);
+
+        for(int i = 0; i<dumpCount; i++) {
+        	printThreadDump();
+        	Thread.sleep(dumpInterval);
+        }
     }
 }

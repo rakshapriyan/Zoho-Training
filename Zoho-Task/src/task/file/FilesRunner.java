@@ -93,7 +93,7 @@ public class FilesRunner {
     
     
   //q3
-    private void readPropsFromFile() throws IOException {
+    private void readPropsFromFile() throws IOException, InvalidInputException {
     	String pathString= getStringInput("Enter the path of the file");
     	
     	Properties properties = task.getProperties();
@@ -105,7 +105,7 @@ public class FilesRunner {
 	}
 
     //Q4
-    private void readPropsFromFileWithDir() throws IOException {
+    private void readPropsFromFileWithDir() throws IOException, InvalidInputException {
         String dirPath = getStringInput("Enter the directory path of the file");
         String fileName = getStringInput("Enter the file name");
         
@@ -171,7 +171,7 @@ public class FilesRunner {
         logger.info(timeOps.getTimeInZone(zone1) + " and " + timeOps.getTimeInZone(zone2));
     }
     //q2
-    public void writeInProps() throws IOException {
+    public void writeInProps() throws IOException, InvalidInputException {
         Properties properties = task.getProperties(); 
         int numOfProps = getIntegerInput("How many properties to add");
         for (int i = 0; i < numOfProps; i++) {
@@ -186,7 +186,7 @@ public class FilesRunner {
 
 
 
-    private void writeInPropsWithDir() throws IOException {
+    private void writeInPropsWithDir() throws IOException, InvalidInputException {
         Properties properties = task.getProperties(); 
         int numOfProps = getIntegerInput("How many properties to add");
         
