@@ -1,5 +1,10 @@
 package task.util;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import task.constant.ErrorConstant;
 import task.exception.InvalidInputException;
 
@@ -24,5 +29,13 @@ public class HelperUtil {
     		throw new InvalidInputException(String.format(ErrorConstant.SMALLER_NUMBER_EXCEPTION, start, end));
     	}
     }
+    
+    
+    public static void validateDirectory(String dir) throws IOException {
+    	Path path = Paths.get(dir);
+		if (Files.notExists(path) || !Files.isDirectory(path)) {
+            throw new IOException(ErrorConstant.DIRECTORY_NOT_FOUND + dir);
+        }
+	}
 }
 

@@ -6,24 +6,23 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import task.exception.InvalidInputException;
+import task.util.HelperUtil;
+
 public class FilesTask {
 	
+	private final String currentDirectory = System.getProperty("user.dir");
 	//Q1
-	public Path writeInFile(String fileName, Iterable<? extends CharSequence> lines) throws IOException {
-		Path path = Paths.get(fileName);
-		Files.write(path, lines);
-		return path;
+	public Path writeInFile(String fileName, Iterable<? extends CharSequence> lines) throws IOException, InvalidInputException {
+		String filePath = currentDirectory;
+		return writeInFile(filePath,fileName, lines);
 	}
 	
 	
-	
-	public Path writeInFile(String filePath, String fileName, Iterable<? extends CharSequence> lines) throws IOException {
-		Path dir = Paths.get(filePath);
-		if (Files.notExists(dir)) {
-            Files.createDirectories(dir);
-		}
+	public Path writeInFile(String filePath, String fileName, Iterable<? extends CharSequence> lines) throws IOException, InvalidInputException {
+		HelperUtil.isNull(filePath);
+		HelperUtil.validateDirectory(filePath);
 		Path path = Paths.get(filePath, fileName);
-		Files.write(path, lines);
 		return path;
 	}
 	
@@ -38,42 +37,29 @@ public class FilesTask {
     }
 	
 	
-	public void writePropertiesIntofile(Properties properties, String fileName) throws IOException {
-		Path path = Paths.get(fileName);
-		properties.store(Files.newBufferedWriter(path), null);
+	public void writePropertiesIntofile(Properties properties, String fileName) throws IOException, InvalidInputException {
+		String filePath = currentDirectory;
+		writePropertiesIntoFile(properties, filePath, fileName);
 	}
 	
 
 
-	public void writePropertiesIntoFile(Properties properties, String dirPath, String fileName) throws IOException {
-        Path dir = Paths.get(dirPath);
-        if (!Files.exists(dir)) {
-            Files.createDirectories(dir);
-            System.out.println("Directory created: " + dirPath);
-        }
-
-        Path path = Paths.get(dirPath, fileName);
-        
+	public void writePropertiesIntoFile(Properties properties, String filePath, String fileName) throws IOException, InvalidInputException {
+		HelperUtil.isNull(filePath);
+        HelperUtil.validateDirectory(filePath);
+        Path path = Paths.get(filePath, fileName);
         properties.store(Files.newBufferedWriter(path), null);
-        System.out.println("Properties written to file: " + path.toString());
     }
 	
-	public void loadPropertiesFromFile(Properties properties, String path) throws IOException {
-        
-		Path filePath = Paths.get(path);
-		properties.load(Files.newBufferedReader(filePath));
-		
+	public void loadPropertiesFromFile(Properties properties, String fileName) throws IOException, InvalidInputException {
+		String filePath = currentDirectory;
+		loadPropertiesFromFile(properties, filePath, fileName);
     }
 
-
-	public void loadPropertiesFromFile(Properties properties, String dirPath, String fileName) throws IOException {
-        Path filePath = Paths.get(dirPath, fileName);
-        
-        if (Files.exists(filePath)) {
-            properties.load(Files.newBufferedReader(filePath));
-            System.out.println("Properties loaded from file: " + filePath.toString());
-        } else {
-            System.out.println("File not found: " + filePath.toString());
-        }
+	public void loadPropertiesFromFile(Properties properties, String filePath, String fileName) throws IOException, InvalidInputException {
+		HelperUtil.isNull(filePath);
+		HelperUtil.validateDirectory(filePath);
+        Path path = Paths.get(filePath, fileName);
+        properties.load(Files.newBufferedReader(path));	
     }
 }

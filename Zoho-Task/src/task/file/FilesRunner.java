@@ -30,7 +30,7 @@ public class FilesRunner {
               System.out.println("1. Create and write to sample.txt");
               System.out.println("2. Store values in Properties and write to myprops.txt");
               System.out.println("3. Read myprops.txt and print properties");
-              System.out.println("4. Create files under /home/INC*/myDir");
+              System.out.println("4. Create files under directory");
               System.out.println("5. Use constructor and print object");
               System.out.println("6. Use POJO class constructor and print");
               System.out.println("7. Use POJO default constructor, set values, and print");
@@ -83,6 +83,9 @@ public class FilesRunner {
               logger.log(Level.SEVERE, "Invalid input. Please enter a valid number.", e);
           } catch (IOException | ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
               logger.log(Level.SEVERE, "An error occurred while executing the task.", e);
+          }
+          finally {
+        	  sc.close();
           }
       }
   }
@@ -240,24 +243,24 @@ public class FilesRunner {
 }
 
 
-    public void checkSingleton() {
+    private void checkSingleton() {
         SingletonClass instance1 = SingletonClass.INSTANCE;
         SingletonClass instance2 = SingletonClass.INSTANCE;
         logger.info("Singleton instances hashCodes: " + instance1.hashCode() + " and " + instance2.hashCode());
     }
 
-    public void printColor() {
+    private void printColor() {
         for (Color color : Color.values()) {
             logger.info("Color: " + color.name() + ", Ordinal: " + color.ordinal());
         }
     }
 
-    public String getStringInput(String message) {
+    private String getStringInput(String message) {
         logger.info(message);
         return sc.nextLine();
     }
 
-    public int getIntegerInput(String message) {
+    private int getIntegerInput(String message) {
         logger.info(message);
         return Integer.parseInt(sc.nextLine());
     }
