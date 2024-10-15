@@ -246,12 +246,12 @@ public class FilesRunner {
     private void checkSingleton() {
         SingletonClass instance1 = SingletonClass.INSTANCE;
         SingletonClass instance2 = SingletonClass.INSTANCE;
-        logger.info("Singleton instances hashCodes: " + instance1.hashCode() + " and " + instance2.hashCode());
+        logger.info("hashcodes: " + instance1.hashCode() + " and " + instance2.hashCode());
     }
 
     private void printColor() {
         for (Color color : Color.values()) {
-            logger.info("Color: " + color.name() + ", Ordinal: " + color.ordinal());
+            logger.info("Color: " + color + " Color code: " + color.getColorCode() + " Ordinal: " + color.ordinal());
         }
     }
 

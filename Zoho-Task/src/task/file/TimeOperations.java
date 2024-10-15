@@ -1,10 +1,13 @@
 package task.file;
 
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.zone.ZoneRules;
 
 public class TimeOperations {
 	
@@ -25,27 +28,35 @@ public class TimeOperations {
     }
 
     public String getTimeInZone(String zone) {
-        ZonedDateTime timeInNewYork = ZonedDateTime.now(ZoneId.of(zone));
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of(zone));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return timeInNewYork.format(formatter);
+        return zonedDateTime.format(formatter);
     }
 
-    public String getWeekDayFromMillis(long millis) {
+    public DayOfWeek getWeekDayFromMillis(long millis) {
         Instant instant = Instant.ofEpochMilli(millis);
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        return dateTime.getDayOfWeek().toString();
+        return dateTime.getDayOfWeek();
     }
 
-    public String getMonthFromMillis(long millis) {
+    public Month getMonthFromMillis(long millis) {
         Instant instant = Instant.ofEpochMilli(millis);
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        return dateTime.getMonth().toString();
+        return dateTime.getMonth();
     }
 
     public int getYearFromMillis(long millis) {
         Instant instant = Instant.ofEpochMilli(millis);
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return dateTime.getYear();
+    }
+    
+    
+    public void checkDST() {
+    	ZonedDateTime now = ZonedDateTime.now( ZoneId.of( "America/Montreal" ) );
+    	ZoneId z = now.getZone();
+    	ZoneRules zoneRules = z.getRules();
+    	Boolean isDst = zoneRules.isDaylightSavings( now.toInstant() );
     }
 
 }

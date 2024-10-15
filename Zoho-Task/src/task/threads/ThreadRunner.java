@@ -14,27 +14,34 @@ public class ThreadRunner {
     public static void main(String[] args) {
         ThreadRunner threadRunner = new ThreadRunner();
         int choice = Integer.parseInt(sc.nextLine());
-        
-        switch (choice) {
-            case 1:
-                threadRunner.printExtendedThread();
-                break;
-            case 2:
-                threadRunner.printRunnableThread();
-                break;
-            case 3:
-                threadRunner.printBeforeAndAfterStarting();
-                break;
-            case 4:
-                threadRunner.printWithSleep();
-                break;
-            case 5:
-                threadRunner.printWithCustomSleep();
-                break;
-            default:
-                logger.severe("Invalid choice: " + choice);
-                break;
+        try {
+        	switch (choice) {
+        	case 1:
+        		threadRunner.printExtendedThread();
+        		break;
+        	case 2:
+        		threadRunner.printRunnableThread();
+        		break;
+        	case 3:
+        		threadRunner.printBeforeAndAfterStarting();
+        		break;
+        	case 4:
+        		threadRunner.printWithSleep();
+        		break;
+        	case 5:
+        		threadRunner.printWithCustomSleep();
+        		break;
+        	case 6:
+        		threadRunner.threadDumpTask();
+        	default:
+        		logger.severe("Invalid choice: " + choice);
+        		break;
+        	}
         }
+        catch(Exception e) {
+        	logger.severe(e.getMessage());
+        }
+        
     }
 
     private void printThreadData(Thread thread) {
