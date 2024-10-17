@@ -12,179 +12,200 @@ import java.util.Map;
 
 public class JdbcTask {
     private static Connection connection = DBConfig.getConnection();
-    
-    // Task 1: Create Employee table
+
     public void createTable() throws SQLException {
-        String createTable = "CREATE TABLE IF NOT EXISTS Employee ("
-                + "EMPLOYEE_ID INT NOT NULL AUTO_INCREMENT, "
-                + "NAME VARCHAR(100) NOT NULL, "
-                + "MOBILE VARCHAR(10) NOT NULL, "
-                + "EMAIL VARCHAR(100) NOT NULL, "
-                + "DEPARTMENT VARCHAR(50) NOT NULL, "
-                + "PRIMARY KEY (EMPLOYEE_ID))";
-        Statement stmt = connection.createStatement();
-        stmt.execute(createTable);
+        String createTable = "CREATE TABLE IF NOT EXISTS employee ("
+                + "employee_id INT NOT NULL AUTO_INCREMENT, "
+                + "name VARCHAR(100) NOT NULL, "
+                + "mobile VARCHAR(10) NOT NULL, "
+                + "email VARCHAR(100) NOT NULL, "
+                + "department VARCHAR(50) NOT NULL, "
+                + "PRIMARY KEY (employee_id))";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(createTable);
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 
-    // Task 9: Create dependent table for Employees
     public void createDependentTable() throws SQLException {
-        String createDependentTable = "CREATE TABLE IF NOT EXISTS EmployeeDependents ("
-                + "DEPENDENT_ID INT NOT NULL AUTO_INCREMENT, "
-                + "EMPLOYEE_ID INT, "
-                + "NAME VARCHAR(100) NOT NULL, "
-                + "AGE INT NOT NULL, "
-                + "RELATIONSHIP VARCHAR(50) NOT NULL, "
-                + "PRIMARY KEY (DEPENDENT_ID), "
-                + "FOREIGN KEY (EMPLOYEE_ID) REFERENCES Employee(EMPLOYEE_ID))";
-        Statement stmt = connection.createStatement();
-        stmt.execute(createDependentTable);
+        String createDependentTable = "CREATE TABLE IF NOT EXISTS employee_dependents ("
+                + "dependent_id INT NOT NULL AUTO_INCREMENT, "
+                + "employee_id INT, "
+                + "name VARCHAR(100) NOT NULL, "
+                + "age INT NOT NULL, "
+                + "relationship VARCHAR(50) NOT NULL, "
+                + "PRIMARY KEY (dependent_id), "
+                + "FOREIGN KEY (employee_id) REFERENCES employee(employee_id))";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(createDependentTable);
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 
-    // Task 2: Insert Employee into table
     public void insertEmployee(String name, String mobile, String email, String department) throws SQLException {
-        String sql = "INSERT INTO Employee (NAME, MOBILE, EMAIL, DEPARTMENT) VALUES (?, ?, ?, ?)";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setString(1, name);
-        pstmt.setString(2, mobile);
-        pstmt.setString(3, email);
-        pstmt.setString(4, department);
-        pstmt.executeUpdate();
+        String sql = "INSERT INTO employee (name, mobile, email, department) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, mobile);
+            pstmt.setString(3, email);
+            pstmt.setString(4, department);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 
-    // Task 3: Get Employee by name
     public List<Map<String, Object>> getEmployeeByName(String name) throws SQLException {
-        String sql = "SELECT EMPLOYEE_ID, NAME, MOBILE, EMAIL, DEPARTMENT FROM Employee WHERE NAME = ?";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setString(1, name);
-        ResultSet rs = pstmt.executeQuery();
-
-        List<Map<String, Object>> employeeList = new ArrayList<>();
-        while (rs.next()) {
-            Map<String, Object> employee = new HashMap<>();
-            employee.put("EMPLOYEE_ID", rs.getInt("EMPLOYEE_ID"));
-            employee.put("NAME", rs.getString("NAME"));
-            employee.put("MOBILE", rs.getString("MOBILE"));
-            employee.put("EMAIL", rs.getString("EMAIL"));
-            employee.put("DEPARTMENT", rs.getString("DEPARTMENT"));
-            employeeList.add(employee);
+    	String sql = "SELECT employee_id, name, mobile, email, department FROM employee WHERE name = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<Map<String, Object>> employeeList = new ArrayList<>();
+                while (rs.next()) {
+                    Map<String, Object> employee = new HashMap<>();
+                    employee.put("employee_id", rs.getInt("employee_id"));
+                    employee.put("name", rs.getString("name"));
+                    employee.put("mobile", rs.getString("mobile"));
+                    employee.put("email", rs.getString("email"));
+                    employee.put("department", rs.getString("department"));
+                    employeeList.add(employee);
+                }
+                return employeeList;
+            }
+        } catch (SQLException e) {
+            throw e;
         }
-        return employeeList;
     }
 
-    // Task 4: Update Employee details
     public int updateEmployeeDetails(int empId, String mobile, String email, String department) throws SQLException {
-        String sql = "UPDATE Employee SET MOBILE = ?, EMAIL = ?, DEPARTMENT = ? WHERE EMPLOYEE_ID = ?";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setString(1, mobile);
-        pstmt.setString(2, email);
-        pstmt.setString(3, department);
-        pstmt.setInt(4, empId);
-        return pstmt.executeUpdate();
+        String sql = "UPDATE employee SET mobile = ?, email = ?, department = ? WHERE employee_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, mobile);
+            pstmt.setString(2, email);
+            pstmt.setString(3, department);
+            pstmt.setInt(4, empId);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 
-    // Task 5: Get first N employees
     public List<Map<String, Object>> printFirstNEmployees(int n) throws SQLException {
-        String sql = "SELECT EMPLOYEE_ID, NAME, MOBILE, EMAIL, DEPARTMENT FROM Employee LIMIT ?";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setInt(1, n);
-        ResultSet rs = pstmt.executeQuery();
-
-        List<Map<String, Object>> employeeList = new ArrayList<>();
-        while (rs.next()) {
-            Map<String, Object> employee = new HashMap<>();
-            employee.put("EMPLOYEE_ID", rs.getInt("EMPLOYEE_ID"));
-            employee.put("NAME", rs.getString("NAME"));
-            employee.put("MOBILE", rs.getString("MOBILE"));
-            employee.put("EMAIL", rs.getString("EMAIL"));
-            employee.put("DEPARTMENT", rs.getString("DEPARTMENT"));
-            employeeList.add(employee);
+        String sql = "SELECT employee_id, name, mobile, email, department FROM employee LIMIT ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, n);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<Map<String, Object>> employeeList = new ArrayList<>();
+                while (rs.next()) {
+                    Map<String, Object> employee = new HashMap<>();
+                    employee.put("employee_id", rs.getInt("employee_id"));
+                    employee.put("name", rs.getString("name"));
+                    employee.put("mobile", rs.getString("mobile"));
+                    employee.put("email", rs.getString("email"));
+                    employee.put("department", rs.getString("department"));
+                    employeeList.add(employee);
+                }
+                return employeeList;
+            }
+        } catch (SQLException e) {
+            throw e;
         }
-        return employeeList;
     }
 
-    // Task 6: Get first N employees sorted by name
     public List<Map<String, Object>> printFirstNEmployeesAsc(int n) throws SQLException {
-        String sql = "SELECT EMPLOYEE_ID, NAME, MOBILE, EMAIL, DEPARTMENT FROM Employee ORDER BY NAME LIMIT ?";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setInt(1, n);
-        ResultSet rs = pstmt.executeQuery();
-
-        List<Map<String, Object>> employeeList = new ArrayList<>();
-        while (rs.next()) {
-            Map<String, Object> employee = new HashMap<>();
-            employee.put("EMPLOYEE_ID", rs.getInt("EMPLOYEE_ID"));
-            employee.put("NAME", rs.getString("NAME"));
-            employee.put("MOBILE", rs.getString("MOBILE"));
-            employee.put("EMAIL", rs.getString("EMAIL"));
-            employee.put("DEPARTMENT", rs.getString("DEPARTMENT"));
-            employeeList.add(employee);
+        String sql = "SELECT employee_id, name, mobile, email, department FROM employee ORDER BY name LIMIT ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, n);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<Map<String, Object>> employeeList = new ArrayList<>();
+                while (rs.next()) {
+                    Map<String, Object> employee = new HashMap<>();
+                    employee.put("employee_id", rs.getInt("employee_id"));
+                    employee.put("name", rs.getString("name"));
+                    employee.put("mobile", rs.getString("mobile"));
+                    employee.put("email", rs.getString("email"));
+                    employee.put("department", rs.getString("department"));
+                    employeeList.add(employee);
+                }
+                return employeeList;
+            }
+        } catch (SQLException e) {
+            throw e;
         }
-        return employeeList;
     }
 
-    // Task 7: Delete employee by ID
     public int deleteEmployeeById(int empId) throws SQLException {
-        String sql = "DELETE FROM Employee WHERE EMPLOYEE_ID = ?";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setInt(1, empId);
-        return pstmt.executeUpdate();
+        String sql = "DELETE FROM employee WHERE employee_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, empId);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 
-    // Task 10: Insert dependent details for employees
     public void insertDependent(int empId, String name, int age, String relationship) throws SQLException {
-        String sql = "INSERT INTO EmployeeDependents (EMPLOYEE_ID, NAME, AGE, RELATIONSHIP) VALUES (?, ?, ?, ?)";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setInt(1, empId);
-        pstmt.setString(2, name);
-        pstmt.setInt(3, age);
-        pstmt.setString(4, relationship);
-        pstmt.executeUpdate();
+        String sql = "INSERT INTO employee_dependents (employee_id, name, age, relationship) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, empId);
+            pstmt.setString(2, name);
+            pstmt.setInt(3, age);
+            pstmt.setString(4, relationship);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 
-    // Task 11: Get dependents by employee name or ID
     public List<Map<String, Object>> getDependentsByEmployeeNameOrId(String nameOrId) throws SQLException {
-        String sql = "SELECT e.EMPLOYEE_ID, e.NAME, d.DEPENDENT_ID, d.NAME AS DEPENDENT_NAME, d.AGE, d.RELATIONSHIP "
-                + "FROM Employee e JOIN EmployeeDependents d ON e.EMPLOYEE_ID = d.EMPLOYEE_ID "
-                + "WHERE e.NAME = ? OR e.EMPLOYEE_ID = ?";
-        
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setString(1, nameOrId);
-        pstmt.setInt(2, Integer.parseInt(nameOrId));
-        ResultSet rs = pstmt.executeQuery();
-
-        List<Map<String, Object>> dependentList = new ArrayList<>();
-        while (rs.next()) {
-            Map<String, Object> dependent = new HashMap<>();
-            dependent.put("EMPLOYEE_ID", rs.getInt("EMPLOYEE_ID"));
-            dependent.put("NAME", rs.getString("NAME"));
-            dependent.put("DEPENDENT_ID", rs.getInt("DEPENDENT_ID"));
-            dependent.put("DEPENDENT_NAME", rs.getString("DEPENDENT_NAME"));
-            dependent.put("AGE", rs.getInt("AGE"));
-            dependent.put("RELATIONSHIP", rs.getString("RELATIONSHIP"));
-            dependentList.add(dependent);
+        String sql = "SELECT e.employee_id, e.name, d.dependent_id, d.name AS dependent_name, d.age, d.relationship "
+                + "FROM employee e JOIN employee_dependents d ON e.employee_id = d.employee_id "
+                + "WHERE e.name = ? OR e.employee_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, nameOrId);
+            pstmt.setInt(2, Integer.parseInt(nameOrId));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<Map<String, Object>> dependentList = new ArrayList<>();
+                while (rs.next()) {
+                    Map<String, Object> dependent = new HashMap<>();
+                    dependent.put("employee_id", rs.getInt("employee_id"));
+                    dependent.put("name", rs.getString("name"));
+                    dependent.put("dependent_id", rs.getInt("dependent_id"));
+                    dependent.put("dependent_name", rs.getString("dependent_name"));
+                    dependent.put("age", rs.getInt("age"));
+                    dependent.put("relationship", rs.getString("relationship"));
+                    dependentList.add(dependent);
+                }
+                return dependentList;
+            }
+        } catch (SQLException e) {
+            throw e;
         }
-        return dependentList;
     }
 
-    // Task 12: Get dependent details for first N employees
     public List<Map<String, Object>> getDependentsForFirstNEmployees(int n) throws SQLException {
-        String sql = "SELECT e.EMPLOYEE_ID, e.NAME, d.NAME AS DEPENDENT_NAME, d.AGE, d.RELATIONSHIP "
-                + "FROM Employee e JOIN EmployeeDependents d ON e.EMPLOYEE_ID = d.EMPLOYEE_ID "
-                + "ORDER BY e.NAME ASC LIMIT ?";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setInt(1, n);
-        ResultSet rs = pstmt.executeQuery();
-
-        List<Map<String, Object>> dependentList = new ArrayList<>();
-        while (rs.next()) {
-            Map<String, Object> dependent = new HashMap<>();
-            dependent.put("EMPLOYEE_ID", rs.getInt("EMPLOYEE_ID"));
-            dependent.put("NAME", rs.getString("NAME"));
-            dependent.put("DEPENDENT_NAME", rs.getString("DEPENDENT_NAME"));
-            dependent.put("AGE", rs.getInt("AGE"));
-            dependent.put("RELATIONSHIP", rs.getString("RELATIONSHIP"));
-            dependentList.add(dependent);
+        String sql = "SELECT e.employee_id, e.name, d.name AS dependent_name, d.age, d.relationship "
+                + "FROM employee e JOIN employee_dependents d ON e.employee_id = d.employee_id "
+                + "ORDER BY e.name ASC LIMIT ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, n);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<Map<String, Object>> dependentList = new ArrayList<>();
+                while (rs.next()) {
+                    Map<String, Object> dependent = new HashMap<>();
+                    dependent.put("employee_id", rs.getInt("employee_id"));
+                    dependent.put("name", rs.getString("name"));
+                    dependent.put("dependent_name", rs.getString("dependent_name"));
+                    dependent.put("age", rs.getInt("age"));
+                    dependent.put("relationship", rs.getString("relationship"));
+                    dependentList.add(dependent);
+                }
+                return dependentList;	
+            }
+        } catch (SQLException e) {
+            throw e;
         }
-        return dependentList;
     }
 }

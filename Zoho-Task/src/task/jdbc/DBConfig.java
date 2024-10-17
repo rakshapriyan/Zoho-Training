@@ -10,9 +10,10 @@ public class DBConfig {
     private static final String URL = "jdbc:mysql://localhost:3306/incubationDB?useSSL=false";
     private static final String USER = "root"; 
     private static final String PASSWORD = "root";
+    private static Connection connection;
 
     public static Connection getConnection() {
-        Connection connection = null;
+        connection = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -34,7 +35,7 @@ public class DBConfig {
         return connection;
     }
 
-    public static void closeConnection(Connection connection) {
+    public static void closeConnection() {
         if (connection != null) {
             try {
                 connection.close();

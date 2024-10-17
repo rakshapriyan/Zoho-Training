@@ -73,6 +73,7 @@ public class JdbcRunner {
             e.printStackTrace();
         } finally {
             sc.close();
+            DBConfig.closeConnection();
         }
     }
 

@@ -1,99 +1,106 @@
 //$Id$
 package task.jdbc;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeManagementTask {
-  private static Connection connection = DBConfig.getConnection();
+    private static Connection connection = DBConfig.getConnection();
 
-  public void addEmployee(Employee employee) {
-      String query = "INSERT INTO Employee (EMPLOYEE_ID, NAME, MOBILE, EMAIL, DEPARTMENT) VALUES (?, ?, ?, ?, ?)";
+    public void addEmployee(Employee employee) {
+        String query = "INSERT INTO employee (employee_id, name, mobile, email, department) VALUES (?, ?, ?, ?, ?)";
 
-      try (PreparedStatement stmt = connection.prepareStatement(query)) {
-          stmt.setInt(1, employee.getEmployeeId());
-          stmt.setString(2, employee.getName());
-          stmt.setString(3, employee.getMobile());
-          stmt.setString(4, employee.getEmail());
-          stmt.setString(5, employee.getDepartment());
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, employee.getEmployeeId());
+            stmt.setString(2, employee.getName());
+            stmt.setString(3, employee.getMobile());
+            stmt.setString(4, employee.getEmail());
+            stmt.setString(5, employee.getDepartment());
 
-          stmt.executeUpdate();
-          System.out.println("Employee added successfully: " + employee);
+            stmt.executeUpdate();
+            System.out.println("Employee added successfully: " + employee);
 
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
-  }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-  public Employee getEmployeeByName(String name) {
-      String query = "SELECT * FROM Employee WHERE NAME = ?";
-      Employee employee = new Employee();
+    public List<Employee> getEmployeeByName(String name) {
+        String query = "SELECT * FROM employee WHERE name = ?";
+        List<Employee> list = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+             
+            stmt.setString(1, name);
 
-      try (PreparedStatement stmt = connection.prepareStatement(query)) {
-          stmt.setString(1, name);
-          ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Employee employee = new Employee();
+                employee.setEmployeeId(rs.getInt("employee_id"));
+                employee.setName(rs.getString("name"));
+                employee.setMobile(rs.getString("mobile"));
+                employee.setEmail(rs.getString("email"));
+                employee.setDepartment(rs.getString("department"));
+                list.add(employee);
+            }
 
-          if (rs.next()) {
-              employee.setEmployeeId(rs.getInt("EMPLOYEE_ID"));
-              employee.setName(rs.getString("NAME"));
-              employee.setMobile(rs.getString("MOBILE"));
-              employee.setEmail(rs.getString("EMAIL"));
-              employee.setDepartment(rs.getString("DEPARTMENT"));
-          }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
+    public List<Employee> getFirstNEmployees(int n) {
+        List<Employee> employees = new ArrayList<>();
+        String query = "SELECT * FROM employee LIMIT ?";
 
-      return employee;
-  }
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+             
+            stmt.setInt(1, n);
 
-  public List<Employee> getFirstNEmployees(int n) {
-      List<Employee> employees = new ArrayList<>();
-      String query = "SELECT * FROM Employee LIMIT ?";
+            while (rs.next()) {
+                Employee employee = new Employee();
+                employee.setEmployeeId(rs.getInt("employee_id"));
+                employee.setName(rs.getString("name"));
+                employee.setMobile(rs.getString("mobile"));
+                employee.setEmail(rs.getString("email"));
+                employee.setDepartment(rs.getString("department"));
+                employees.add(employee);
+            }
 
-      try (PreparedStatement stmt = connection.prepareStatement(query)) {
-          stmt.setInt(1, n);
-          ResultSet rs = stmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employees;
+    }
 
-          while (rs.next()) {
-              Employee employee = new Employee();
-              employee.setEmployeeId(rs.getInt("EMPLOYEE_ID"));
-              employee.setName(rs.getString("NAME"));
-              employee.setMobile(rs.getString("MOBILE"));
-              employee.setEmail(rs.getString("EMAIL"));
-              employee.setDepartment(rs.getString("DEPARTMENT"));
-              employees.add(employee);
-          }
+    public List<Employee> getEmployeesSortedByName(int n) {
+        List<Employee> employees = new ArrayList<>();
+        String query = "SELECT * FROM employee ORDER BY name ASC LIMIT ?";
 
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
-      return employees;
-  }
+        try (PreparedStatement stmt = connection.prepareStatement(query)) 
+        {
+             
+            stmt.setInt(1, n);
+            try(ResultSet rs = stmt.executeQuery()){
+	            while (rs.next()) {
+	                Employee employee = new Employee();
+	                employee.setEmployeeId(rs.getInt("employee_id"));
+	                employee.setName(rs.getString("name"));
+	                employee.setMobile(rs.getString("mobile"));
+	                employee.setEmail(rs.getString("email"));
+	                employee.setDepartment(rs.getString("department"));
+	                employees.add(employee);
+	            }
+	        }
 
-  public List<Employee> getEmployeesSortedByName(int n) {
-      List<Employee> employees = new ArrayList<>();
-      String query = "SELECT * FROM Employee ORDER BY NAME ASC LIMIT ?";
-
-      try (PreparedStatement stmt = connection.prepareStatement(query)) {
-          stmt.setInt(1, n);
-          ResultSet rs = stmt.executeQuery();
-
-          while (rs.next()) {
-              Employee employee = new Employee(); 
-              employee.setEmployeeId(rs.getInt("EMPLOYEE_ID"));
-              employee.setName(rs.getString("NAME"));
-              employee.setMobile(rs.getString("MOBILE"));
-              employee.setEmail(rs.getString("EMAIL"));
-              employee.setDepartment(rs.getString("DEPARTMENT"));
-              employees.add(employee);
-          }
-
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
-      return employees;
-  }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employees;
+    }
 }

@@ -79,9 +79,9 @@ public class EmployeeManagementRunner {
     private static void getEmployeeByName() {
         System.out.print("Enter Employee Name: ");
         String name = sc.nextLine();
-        Employee employee = employeeManagementTask.getEmployeeByName(name);
+        List<Employee> employee = employeeManagementTask.getEmployeeByName(name);
 
-        if (employee.getEmployeeId() != 0) {
+        if (employee.size() != 0) {
             System.out.println("Employee found: " + employee);
         } else {
             System.out.println("Employee not found.");
