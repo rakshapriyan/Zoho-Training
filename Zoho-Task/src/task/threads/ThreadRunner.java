@@ -3,8 +3,8 @@ package task.threads;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ThreadRunner {
@@ -13,35 +13,41 @@ public class ThreadRunner {
 
     public static void main(String[] args) {
         ThreadRunner threadRunner = new ThreadRunner();
+        logger.info("Enter your choice (1-7):");
         int choice = Integer.parseInt(sc.nextLine());
         try {
-        	switch (choice) {
-        	case 1:
-        		threadRunner.printExtendedThread();
-        		break;
-        	case 2:
-        		threadRunner.printRunnableThread();
-        		break;
-        	case 3:
-        		threadRunner.printBeforeAndAfterStarting();
-        		break;
-        	case 4:
-        		threadRunner.printWithSleep();
-        		break;
-        	case 5:
-        		threadRunner.printWithCustomSleep();
-        		break;
-        	case 6:
-        		threadRunner.threadDumpTask();
-        	default:
-        		logger.severe("Invalid choice: " + choice);
-        		break;
-        	}
+            switch (choice) {
+                case 1:
+                    threadRunner.printExtendedThread();
+                    break;
+                case 2:
+                    threadRunner.printRunnableThread();
+                    break;
+                case 3:
+                    threadRunner.printBeforeAndAfterStarting();
+                    break;
+                case 4:
+                    threadRunner.printWithSleep();
+                    break;
+                case 5:
+                    threadRunner.printWithCustomSleep();
+                    break;
+                case 6:
+                    threadRunner.threadDumpTask();
+                    break;
+                case 7:
+                    threadRunner.printThreadDumpWithMXBean();
+                    break;
+                case 8:
+                    threadRunner.printThreadDumpWithStackTraces();
+                    break;
+                default:
+                    logger.severe("Invalid choice: " + choice);
+                    break;
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
         }
-        catch(Exception e) {
-        	logger.severe(e.getMessage());
-        }
-        
     }
 
     private void printThreadData(Thread thread) {
@@ -73,11 +79,11 @@ public class ThreadRunner {
 
         RunnableThread runnableThread = new RunnableThread();
         Thread thread = new Thread(runnableThread);
-        
+
         thread.setName("RunnableThread");
         logger.info("Before starting: " + thread.getName());
         printThreadData(thread);
-        
+
         logger.info("After starting: " + thread.getName());
         thread.start();
         printThreadData(thread);
@@ -101,9 +107,9 @@ public class ThreadRunner {
     }
 
     private void printWithCustomSleep() {
-        logger.info("Enter number of Threads and Runnable needed:");
+        logger.info("Enter number of Threads and Runnables needed:");
         int numOfThreads = Integer.parseInt(sc.nextLine());
-        
+
         for (int i = 1; i <= numOfThreads; i++) {
             logger.info("Enter the sleep time for ExtendedThread " + i + ":");
             ExtendedThread extendedThread = new ExtendedThread(Integer.parseInt(sc.nextLine()));
@@ -121,28 +127,23 @@ public class ThreadRunner {
         }
     }
 
-    private void printThreadDump() {
-        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-        ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
-
-        for (ThreadInfo threadInfo : threadInfos) {
-            System.out.println(threadInfo);
-        }
-    }
-
     private void threadDumpTask() throws InterruptedException {
-        System.out.print("Enter how many milliseconds for sleep: ");
+        logger.info("Enter how many milliseconds for sleep: ");
         long ms = sc.nextLong();
-        System.out.print("Enter how many threads: ");
+        sc.nextLine();
+        logger.info("Enter how many threads: ");
         int threadCount = sc.nextInt();
-        System.out.print("Enter how many minutes to wait before stopping: ");
+        sc.nextLine();
+        logger.info("Enter how many minutes to wait before stopping: ");
         long minutes = sc.nextLong();
-        System.out.print("Enter the number of dumps: ");
+        sc.nextLine();
+        logger.info("Enter the number of dumps: ");
         long dumpCount = sc.nextLong();
-        
-        System.out.print("Enter the Interval of dumps: ");
+        sc.nextLine();
+        logger.info("Enter the Interval of dumps: ");
         long dumpInterval = sc.nextLong();
-        
+        sc.nextLine();
+
         ExtendedThread[] extendedThreads = new ExtendedThread[threadCount];
         Thread[] runnableThreads = new Thread[threadCount];
         RunnableThread[] runnables = new RunnableThread[threadCount];
@@ -151,7 +152,7 @@ public class ThreadRunner {
             extendedThreads[i] = new ExtendedThread(ms * (i + 1));
             extendedThreads[i].setName("ExtendedThread-" + i);
             extendedThreads[i].start();
-            
+
             runnables[i] = new RunnableThread(ms * (i + 1));
             runnableThreads[i] = new Thread(runnables[i], "RunnableThread-" + i);
             runnableThreads[i].start();
@@ -159,9 +160,32 @@ public class ThreadRunner {
 
         Thread.sleep(minutes * 60 * 1000);
 
-        for(int i = 0; i<dumpCount; i++) {
-        	printThreadDump();
-        	Thread.sleep(dumpInterval);
+        for (int i = 0; i < dumpCount; i++) {
+            printThreadDumpWithMXBean();
+            Thread.sleep(dumpInterval);
+        }
+    }
+
+    private void printThreadDumpWithMXBean() {
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
+
+        logger.info("Thread Dump:");
+        for (ThreadInfo threadInfo : threadInfos) {
+            logger.info(threadInfo.toString());
+        }
+    }
+
+    private void printThreadDumpWithStackTraces() {
+        for (Map.Entry<Thread, StackTraceElement[]> entry : Thread.getAllStackTraces().entrySet()) {
+            Thread thread = entry.getKey();
+            StackTraceElement[] stackTraceElements = entry.getValue();
+
+            logger.info("Thread: " + thread.getName() + " - State: " + thread.getState());
+            for (StackTraceElement element : stackTraceElements) {
+                logger.info(element.toString());
+            }
+            logger.info("");
         }
     }
 }

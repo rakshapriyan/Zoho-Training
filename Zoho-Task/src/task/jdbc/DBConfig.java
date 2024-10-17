@@ -7,20 +7,16 @@ import java.sql.SQLException;
 
 public class DBConfig {
 
-    // Database credentials
-    private static final String URL = "jdbc:mysql://localhost:3306/incubationDB?useSSL=false";  // Disable SSL explicitly
-    private static final String USER = "root";  // Replace with your MySQL username
-    private static final String PASSWORD = "root";  // Replace with your MySQL password
+    private static final String URL = "jdbc:mysql://localhost:3306/incubationDB?useSSL=false";
+    private static final String USER = "root"; 
+    private static final String PASSWORD = "root";
 
-    // Static method to get the database connection
     public static Connection getConnection() {
         Connection connection = null;
 
         try {
-            // Load the MySQL JDBC driver for MySQL 5.x
-            Class.forName("com.mysql.jdbc.Driver");  // Use the old driver class for MySQL 5.x
+            Class.forName("com.mysql.jdbc.Driver");
 
-            // Establish the connection to the database
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             
             if (connection != null) {
@@ -38,7 +34,6 @@ public class DBConfig {
         return connection;
     }
 
-    // Optionally, add a close method to close the connection
     public static void closeConnection(Connection connection) {
         if (connection != null) {
             try {

@@ -10,13 +10,29 @@ import java.util.regex.Pattern;
 public class RegexTask {
 
 	
-	private static final String MOBILE_NUMBER_PATTERN = "^[6789]\\d{9}$";
+	private static final String MOBILE_NUMBER_PATTERN_1 = "^[789]\\d{9}$";
+    private static final String MOBILE_NUMBER_PATTERN_2 = "^\\d{10}$";
+    private static final String MOBILE_NUMBER_PATTERN_3 = "^\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}$";
+    private static final String MOBILE_NUMBER_PATTERN_4 = "^\\(\\d{3}\\)[-\\s]\\d{3}[-\\s]\\d{4}$";
+    private static final String MOBILE_NUMBER_PATTERN_5 = "^\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}$";
+
 	private static final String ALPHANUMERIC_PATTERN = "^[a-zA-Z0-9]+$";
 	private static final String EMAIL_PATTERN = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$";
 	private static final String HTML_TAG_PATTERN = "<[^>]+>";
 	
-	public boolean validateMobileNumber(String mobileNumber) {
-        return Pattern.matches(MOBILE_NUMBER_PATTERN, mobileNumber);
+	public static boolean validateMobileNumber(String mobileNumber) {
+        if (mobileNumber.matches(MOBILE_NUMBER_PATTERN_1))
+            return true;
+        else if (mobileNumber.matches(MOBILE_NUMBER_PATTERN_2))
+            return true;
+        else if (mobileNumber.matches(MOBILE_NUMBER_PATTERN_3))
+            return true;
+        else if (mobileNumber.matches(MOBILE_NUMBER_PATTERN_4))
+            return true;
+        else if (mobileNumber.matches(MOBILE_NUMBER_PATTERN_5))
+            return true;
+        else
+            return false;
     }
 	
 	public boolean validateAlphanumericString(String input) { 
