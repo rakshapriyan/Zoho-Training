@@ -1,0 +1,88 @@
+tables:
+  User:
+    table_name: "User"
+    columns:
+      user_id: "user_id"
+      username: "username"
+      password: "password"
+      name: "name"
+      phone_number: "phone_number"
+      email_id: "email_id"
+      role: "role"
+      is_online: "is_online"
+      user_status: "user_status"
+      created_by: "created_by"
+      created_timestamp: "created_timestamp"
+      last_modified_by: "last_modified_by"
+      last_modified_timestamp: "last_modified_timestamp"
+
+  Employee:
+    table_name: "Employee"
+    columns:
+      employee_id: "employee_id"
+      branch_id: "branch_id"
+
+  Branch:
+    table_name: "Branch"
+    columns:
+      branch_id: "branch_id"
+      name: "name"
+      ifsc_code: "ifsc_code"
+      manager_id: "manager_id"
+      address: "address"
+      city: "city"
+      state: "state"
+      pincode: "pincode"
+      created_by: "created_by"
+      created_timestamp: "created_timestamp"
+      modified_by: "modified_by"
+      modified_timestamp: "modified_timestamp"
+
+  Account:
+    table_name: "Account"
+    columns:
+      account_number: "account_number"
+      customer_id: "customer_id"
+      branch_id: "branch_id"
+      balance: "balance"
+      account_status: "account_status"
+      date_opened: "date_opened"
+      date_closed: "date_closed"
+      created_by: "created_by"
+      created_timestamp: "created_timestamp"
+      last_modified_by: "last_modified_by"
+      last_modified_timestamp: "last_modified_timestamp"
+
+  Transaction:
+    table_name: "Transaction"
+    columns:
+      transaction_id: "transaction_id"
+      transaction_number: "transaction_number"
+      account_number: "account_number"
+      transaction_account_number: "transaction_account_number"
+      transaction_type: "transaction_type"
+      amount: "amount"
+      timestamp: "timestamp"
+      status: "status"
+      description: "description"
+      created_by: "created_by"
+      created_timestamp: "created_timestamp"
+
+  Login_Activity:
+    table_name: "Login_Activity"
+    columns:
+      login_id: "login_id"
+      user_id: "user_id"
+      login_timestamp: "login_timestamp"
+      logout_timestamp: "logout_timestamp"
+
+  Customer:
+    table_name: "Customer"
+    columns:
+      customer_id: "customer_id"
+      aadhar_number: "aadhar_number"
+      pan_number: "pan_number"
+      address: "address"
+      city: "city"
+      state: "state"
+      pincode: "pincode"
