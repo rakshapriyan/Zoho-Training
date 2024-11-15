@@ -4,7 +4,7 @@ public class Employee extends User {
 	private Long employeeId;
 	private Long branchId;
 
-	// Getters and Setters
+
 	public Long getEmployeeId() {
 		return employeeId;
 	}
@@ -20,4 +20,5 @@ public class Employee extends User {
 	public void setBranchId(Long branchId) {
 		this.branchId = branchId;
 	}
+	
 }

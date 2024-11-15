@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class DBConfig {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/incubationDB?useSSL=false";
+    private static final String URL = "jdbc:mysql://localhost:3306/netbanking?useSSL=false";
     private static final String USER = "root"; 
     private static final String PASSWORD = "root";
     private static Connection connection;

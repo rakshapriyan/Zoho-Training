@@ -103,4 +103,15 @@ public class Account {
 	public void setLastModifiedTimestamp(Long lastModifiedTimestamp) {
 		this.lastModifiedTimestamp = lastModifiedTimestamp;
 	}
+
+	@Override
+	public String toString() {
+		return "Account [accountNumber=" + accountNumber + ", customerId=" + customerId + ", branchId=" + branchId
+				+ ", balance=" + balance + ", accountStatus=" + accountStatus + ", dateOpened=" + dateOpened
+				+ ", dateClosed=" + dateClosed + ", createdBy=" + createdBy + ", createdTimestamp=" + createdTimestamp
+				+ ", lastModifiedBy=" + lastModifiedBy + ", lastModifiedTimestamp=" + lastModifiedTimestamp + "]";
+	}
+	
+	
+	
 }

@@ -1,21 +1,20 @@
 package com.banking.entity;
 
 public abstract class User {
-	private Long userId;
-	private String username;
-	private String password;
-	private String name;
-	private Long phoneNumber;
-	private String emailId;
-	private String role;
-	private Boolean isOnline;
-	private String userStatus;
-	private Long createdBy;
-	private Long createdTimestamp;
-	private Long lastModifiedBy;
-	private Long lastModifiedTimestamp;
-
-	// Getters and Setters
+	protected Long userId;
+	protected String username;
+	protected String password;
+	protected String name;
+	protected Long phoneNumber;
+	protected String emailId;
+	protected String role;
+	protected Boolean isOnline;
+	protected String userStatus;
+	protected Long createdBy;
+	protected Long createdTimestamp;
+	protected Long lastModifiedBy;
+	protected Long lastModifiedTimestamp;
+	
 	public Long getUserId() {
 		return userId;
 	}

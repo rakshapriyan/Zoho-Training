@@ -9,7 +9,6 @@ public class Customer extends User {
 	private String state;
 	private Integer pincode;
 
-	// Getters and Setters
 	public Long getCustomerId() {
 		return customerId;
 	}
@@ -65,4 +64,28 @@ public class Customer extends User {
 	public void setPincode(Integer pincode) {
 		this.pincode = pincode;
 	}
+
+	@Override
+	public String toString() {
+		return "Customer [customerId=" + customerId + ", aadharNumber=" + aadharNumber + ", panNumber=" + panNumber
+				+ ", address=" + address + ", city=" + city + ", state=" + state + ", pincode=" + pincode + ", userId="
+				+ userId + ", username=" + username + ", password=" + password + ", name=" + name + ", phoneNumber="
+				+ phoneNumber + ", emailId=" + emailId + ", role=" + role + ", isOnline=" + isOnline + ", userStatus="
+				+ userStatus + ", createdBy=" + createdBy + ", createdTimestamp=" + createdTimestamp
+				+ ", lastModifiedBy=" + lastModifiedBy + ", lastModifiedTimestamp=" + lastModifiedTimestamp
+				+ ", getCustomerId()=" + getCustomerId() + ", getAadharNumber()=" + getAadharNumber()
+				+ ", getPanNumber()=" + getPanNumber() + ", getAddress()=" + getAddress() + ", getCity()=" + getCity()
+				+ ", getState()=" + getState() + ", getPincode()=" + getPincode() + ", getUserId()=" + getUserId()
+				+ ", getUsername()=" + getUsername() + ", getPassword()=" + getPassword() + ", getName()=" + getName()
+				+ ", getPhoneNumber()=" + getPhoneNumber() + ", getEmailId()=" + getEmailId() + ", getRole()="
+				+ getRole() + ", getIsOnline()=" + getIsOnline() + ", getUserStatus()=" + getUserStatus()
+				+ ", getCreatedBy()=" + getCreatedBy() + ", getCreatedTimestamp()=" + getCreatedTimestamp()
+				+ ", getLastModifiedBy()=" + getLastModifiedBy() + ", getLastModifiedTimestamp()="
+				+ getLastModifiedTimestamp() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
+	}
+	
+	
+	
+	
 }

@@ -1,88 +1,112 @@
-tables:
-  User:
-    table_name: "User"
-    columns:
-      user_id: "user_id"
-      username: "username"
-      password: "password"
-      name: "name"
-      phone_number: "phone_number"
-      email_id: "email_id"
-      role: "role"
-      is_online: "is_online"
-      user_status: "user_status"
-      created_by: "created_by"
-      created_timestamp: "created_timestamp"
-      last_modified_by: "last_modified_by"
-      last_modified_timestamp: "last_modified_timestamp"
+user:
+  class_name: "User"
+  columns:
+    user_id: "userId"
+    username: "username"
+    password: "password"
+    name: "name"
+    phone_number: "phoneNumber"
+    email_id: "emailId"
+    role: "role"
+    is_online: "isOnline"
+    user_status: "userStatus"
+    created_by: "createdBy"
+    created_timestamp: "createdTimestamp"
+    last_modified_by: "lastModifiedBy"
+    last_modified_timestamp: "lastModifiedTimestamp"
 
-  Employee:
-    table_name: "Employee"
-    columns:
-      employee_id: "employee_id"
-      branch_id: "branch_id"
+customer:
+  class_name: "Customer"
+  columns:
+    customer_id: "customerId"
+    aadhar_number: "aadharNumber"
+    pan_number: "panNumber"
+    address: "address"
+    city: "city"
+    state: "state"
+    pincode: "pincode"
+  extends: "User"
+  foreign_keys:
+    - field: "customer_id"
+      references: "user_id"
+      referenced_class: "User"
 
-  Branch:
-    table_name: "Branch"
-    columns:
-      branch_id: "branch_id"
-      name: "name"
-      ifsc_code: "ifsc_code"
-      manager_id: "manager_id"
-      address: "address"
-      city: "city"
-      state: "state"
-      pincode: "pincode"
-      created_by: "created_by"
-      created_timestamp: "created_timestamp"
-      modified_by: "modified_by"
-      modified_timestamp: "modified_timestamp"
+employee:
+  class_name: "Employee"
+  columns:
+    employee_id: "employeeId"
+    branch_id: "branchId"
+  extends: "User"
+  foreign_keys:
+    - field: "employee_id"
+      references: "user_id"
+      referenced_class: "User"
 
-  Account:
-    table_name: "Account"
-    columns:
-      account_number: "account_number"
-      customer_id: "customer_id"
-      branch_id: "branch_id"
-      balance: "balance"
-      account_status: "account_status"
-      date_opened: "date_opened"
-      date_closed: "date_closed"
-      created_by: "created_by"
-      created_timestamp: "created_timestamp"
-      last_modified_by: "last_modified_by"
-      last_modified_timestamp: "last_modified_timestamp"
+branch:
+  class_name: "Branch"
+  columns:
+    branch_id: "branchId"
+    name: "name"
+    ifsc_code: "ifscCode"
+    manager_id: "managerId"
+    address: "address"
+    city: "city"
+    state: "state"
+    pincode: "pincode"
+    created_by: "createdBy"
+    created_timestamp: "createdTimestamp"
+    modified_by: "modifiedBy"
+    modified_timestamp: "modifiedTimestamp"
 
-  Transaction:
-    table_name: "Transaction"
-    columns:
-      transaction_id: "transaction_id"
-      transaction_number: "transaction_number"
-      account_number: "account_number"
-      transaction_account_number: "transaction_account_number"
-      transaction_type: "transaction_type"
-      amount: "amount"
-      timestamp: "timestamp"
-      status: "status"
-      description: "description"
-      created_by: "created_by"
-      created_timestamp: "created_timestamp"
+account:
+  class_name: "Account"
+  columns:
+    account_number: "accountNumber"
+    customer_id: "customerId"
+    branch_id: "branchId"
+    balance: "balance"
+    account_status: "accountStatus"
+    date_opened: "dateOpened"
+    date_closed: "dateClosed"
+    created_by: "createdBy"
+    created_timestamp: "createdTimestamp"
+    last_modified_by: "lastModifiedBy"
+    last_modified_timestamp: "lastModifiedTimestamp"
+  foreign_keys:
+    - field: "customer_id"
+      references: "customer_id"
+      referenced_class: "Customer"
+    - field: "branch_id"
+      references: "branch_id"
+      referenced_class: "Branch"
 
-  Login_Activity:
-    table_name: "Login_Activity"
-    columns:
-      login_id: "login_id"
-      user_id: "user_id"
-      login_timestamp: "login_timestamp"
-      logout_timestamp: "logout_timestamp"
+transaction:
+  class_name: "Transaction"
+  columns:
+    transaction_id: "transactionId"
+    transaction_number: "transactionNumber"
+    account_number: "accountNumber"
+    transaction_account_number: "transactionAccountNumber"
+    transaction_type: "transactionType"
+    amount: "amount"
+    timestamp: "timestamp"
+    status: "status"
+    description: "description"
+    created_by: "createdBy"
+    created_timestamp: "createdTimestamp"
+  foreign_keys:
+    - field: "account_number"
+      references: "account_number"
+      referenced_class: "Account"
 
-  Customer:
-    table_name: "Customer"
-    columns:
-      customer_id: "customer_id"
-      aadhar_number: "aadhar_number"
-      pan_number: "pan_number"
-      address: "address"
-      city: "city"
-      state: "state"
-      pincode: "pincode"
+login_activity:
+  class_name: "LoginActivity"
+  columns:
+    login_id: "loginId"
+    user_id: "userId"
+    login_timestamp: "loginTimestamp"
+    logout_timestamp: "logoutTimestamp"
+  foreign_keys:
+    - field: "user_id"
+      references: "user_id"
+      referenced_class: "User"
