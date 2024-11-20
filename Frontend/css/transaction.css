@@ -1,0 +1,109 @@
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #3b5998;
+    color: white;
+    padding: 1rem;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#nav-links {
+    display: flex;
+    gap: 1rem;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#nav-links li {
+    display: inline;
+}
+
+#nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Transaction Page */
+.transaction-page {
+    padding: 1.5rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.account-select {
+    margin-right: 1rem;
+}
+
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.filter-menu {
+    display: none;
+    position: absolute;
+    top: 2rem;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.filter-dropdown:hover .filter-menu {
+    display: block;
+}
+
+.apply-filter-button {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.apply-filter-button:hover {
+    background-color: #2980b9;
+}
+
+/* Transaction Table */
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.transaction-table th,
+.transaction-table td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.transaction-table th {
+    background-color: #3b5998;
+    color: white;
+}
+
+.transaction-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

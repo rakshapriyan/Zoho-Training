@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">Banking App</div>
+        <ul id="nav-links">
+            <!-- Dynamic Links Will Be Injected Here -->
+        </ul>
+        <div class="dropdown">
+            <span class="dropdown-toggle">Profile</span>
+            <div class="dropdown-menu">
+                <a href="#">Account Settings</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <h1>Dashboard</h1>
+    </div>
+    <div class="dashboard-container">
+        <!-- Customer Section -->
+        <div id="customer-section" class="user-section active">
+            <h2><i>📊</i>Customer Dashboard</h2>
+            <p class="customer-info">Welcome, <strong>John Doe</strong>! Below are your account details and recent activities.</p>
+
+            <p id="overall-balance"><strong>Overall Balance:</strong> ₹0</p>
+
+            <!-- Account Selector Component -->
+            <div id="account-selector" class="account-selector"></div>
+
+            <!-- Account Details Card Component -->
+            <div id="account-details" class="account-details-card" style="display: none;"></div>
+
+            <div class="recent-transactions">
+                <h3>Recent Transactions</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Account</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactions-table">
+                        <!-- Transactions will be dynamically populated -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="view-statement">
+                <a href="view-statement.html">View Full Statement</a>
+            </div>
+
+            <!-- New Section for Total Credited and Debited Amounts -->
+            <div id="recent-transactions-summary">
+                <p><strong>Total Credited Amount in Last 10 Days:</strong> ₹<span id="total-credited">0</span></p>
+                <p><strong>Total Debited Amount in Last 10 Days:</strong> ₹<span id="total-debited">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/navbar.js"></script>
+</body>
+</html>

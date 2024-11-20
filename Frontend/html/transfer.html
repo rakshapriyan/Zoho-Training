@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amount Transfer</title>
+    <link rel="stylesheet" href="../css/transfer.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">Banking App</div>
+        <ul id="nav-links">
+            <!-- Dynamic Links Will Be Injected Here -->
+        </ul>
+        <div class="dropdown">
+            <span class="dropdown-toggle">Profile</span>
+            <div class="dropdown-menu">
+                <a href="#">Account Settings</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="page-title">Amount Transfer</h1>
+
+        <form id="transferForm" class="form">
+            <div class="form-group">
+                <label for="fromAccount">From Account</label>
+                <select id="fromAccount" name="fromAccount" class="form-control">
+                    <option value="123456789">Savings Account - 123456789</option>
+                    <option value="987654321">Current Account - 987654321</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Transfer Type</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="transferType" value="self" checked>
+                        Self Transfer
+                    </label>
+                    <label>
+                        <input type="radio" name="transferType" value="other">
+                        Transfer to Other Account
+                    </label>
+                </div>
+            </div>
+
+            <div id="transferToOtherFields" class="hidden">
+                <div class="form-group">
+                    <label>Is the recipient account in the same bank?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="sameBank" value="yes" checked>
+                            Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="sameBank" value="no">
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div id="differentBankFields" class="hidden">
+                    <div class="form-group">
+                        <label for="ifscCode">IFSC Code</label>
+                        <input type="text" id="ifscCode" name="ifscCode" class="form-control" placeholder="Enter IFSC Code">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="recipientAccount">Recipient Account Number</label>
+                    <input type="text" id="recipientAccount" name="recipientAccount" class="form-control" placeholder="Enter Recipient Account Number">
+                </div>
+                <div class="form-group">
+                    <label for="recipientName">Recipient Name</label>
+                    <input type="text" id="recipientName" name="recipientName" class="form-control" placeholder="Enter Recipient Name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" class="form-control" placeholder="Enter Amount" min="1" step="0.01">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Transfer</button>
+        </form>
+    </div>
+
+    <script src="../js/transfer.js"></script>
+    <script src="../js/navbar.js"></script>
+</body>
+</html>
